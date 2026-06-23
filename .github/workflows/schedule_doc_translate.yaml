@@ -39,7 +39,7 @@ jobs:
     permissions:
       contents: read
     env:
-      UPSTREAM_REPO: triton-project/triton-ascend
+      UPSTREAM_REPO: Geofeng12138/triton-ascend123
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
