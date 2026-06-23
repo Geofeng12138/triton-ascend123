@@ -44,7 +44,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          repository: Geofeng12138/triton-ascend
+          repository: Geofeng12138/triton-ascend123
           token: ${{ secrets.PAT_TOKEN }}
           ref: main
 
