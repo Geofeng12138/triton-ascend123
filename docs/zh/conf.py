@@ -111,9 +111,18 @@ if not _force_mock:
         _force_mock = True
 
 if _force_mock:
+    import sys
+    from unittest.mock import MagicMock
+
+    mock_modules = ['triton','triton.language','triton.language.extra','triton._C','triton.runtime','triton.compiler']
+
+    for mod_name in mock_modules:
+        if mod_name not in sys.modules:
+            sys.modules[mod_name] = MagicMock()
+
     _load_module(
         "docs.zh._mock._triton_mock",
-        _os.path.join(_HERE, "_mock", "_triton_mock.py"),
+        _os.path.join(_HERE,"_mock","_triton_mock.py"),
     ).install()
 
 import triton  # noqa: E402
