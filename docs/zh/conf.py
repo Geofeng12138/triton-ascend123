@@ -113,21 +113,16 @@ if not _force_mock:
 if _force_mock:
     _load_module(
         "docs.zh._mock._triton_mock",
-        _os.path.join(_HERE,"_mock","_triton_mock.py"),
+        _os.path.join(_HERE, "_mock", "_triton_mock.py"),
     ).install()
 
 import triton  # noqa: E402
+import triton.language.extra as _tl_extra  # noqa: E402
 
-def _setup_tl_extra():
-
-    import triton.language.extra as _tl_extra  # noqa: E402
-
-    # Extend the extra package path so triton.language.extra.cann is importable.
-    _cann_lang_path = _os.path.join(_REPO, "third_party", "ascend", "language")
-    if _cann_lang_path not in _tl_extra.__path__:
-        _tl_extra.__path__.append(_cann_lang_path)
-
-_setup_tl_extra()
+# Extend the extra package path so triton.language.extra.cann is importable.
+_cann_lang_path = _os.path.join(_REPO, "third_party", "ascend", "language")
+if _cann_lang_path not in _tl_extra.__path__:
+    _tl_extra.__path__.append(_cann_lang_path)
 
 import sphinx.ext.autosummary  # noqa: E402
 import sphinx.util.inspect  # noqa: E402

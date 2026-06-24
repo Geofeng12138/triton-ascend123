@@ -76,6 +76,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y make
           pip install -r requirements-docs.txt
+          export TRITON_DOCS_FORCE_MOCK=1
           make clean && make html
           sphinx-build -b gettext zh _build/gettext
           sphinx-intl update -p _build/gettext -l zh_CN
