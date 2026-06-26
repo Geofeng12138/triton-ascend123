@@ -76,8 +76,8 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y make
           pip install -r requirements-docs.txt
-          sphinx-build -b html -D autodoc_mock_imports="triton,triton.language,triton.language.extra" ./source _build/html
-          sphinx-build -b gettext -D autodoc_mock_imports="triton,triton.language,triton.language.extra" ./zh _build/gettext
+          sphinx-build -b html -D autodoc_mock_imports="triton,triton.language,triton.language.extra" docs/source _build/html
+          sphinx-build -b gettext -D autodoc_mock_imports="triton,triton.language,triton.language.extra" docs/zh _build/gettext
           sphinx-intl update -p _build/gettext -l zh_CN
 
       - name: Detect PO files to translate
