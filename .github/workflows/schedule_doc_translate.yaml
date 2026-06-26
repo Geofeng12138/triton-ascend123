@@ -80,8 +80,9 @@ jobs:
           ls -la en/
           ls -la sources/
           ls -la zh/
-          sphinx-build -b gettext -D autodoc_mock_imports="triton,triton.language,triton.language.extra" zh _build/gettext
+          sphinx-build -b gettext -D autodoc_mock_imports="triton,triton.language,triton.language.extra,triton._C" zh _build/gettext
           sphinx-intl update -p _build/gettext -l en
+          sphinx-build -b html -D autodoc_mock_imports="triton,triton.language,triton.language.extra,triton._C" en _build/html_en
 
       - name: Detect PO files to translate
         id: detect
