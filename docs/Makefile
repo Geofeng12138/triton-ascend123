@@ -21,4 +21,4 @@ help:
 
 intl:
 	sphinx-intl build
-	@$(SPHINXBUILD) -b html -D language=en "$(SOURCEDIR)" "$(BUILDDIR)/html/en" -c . $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -b html -D language=en "$(SOURCEDIR)" "$(BUILDDIR)/html/en"  $(SPHINXOPTS) $(O)
