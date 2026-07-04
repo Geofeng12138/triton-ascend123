@@ -1,0 +1,3 @@
+I'll translate the Chinese governance document into English while preserving all Markdown formatting and technical accuracy. Since the file path references `../../../GOVERNANCE_zh.md`, I'll assume the content is similar to standard open-source governance documents. However, you haven't provided the actual content of the file. Please provide the content of `../../../GOVERNANCE_zh.md` so I can translate it accurately.
+
+If you want me to proceed with a generic translation based on common governance structures, I can do that, but it's better to have the exact text. Please paste the content you need translated.
