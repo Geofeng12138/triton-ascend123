@@ -76,9 +76,9 @@ jobs:
             echo "No Chinese doc files changed since last commit"
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
-            # Get unique files and format as comma-separated list
-            files=$(echo "$changed" | tr ' ' '\n' | sort -u | grep '\.md$' | tr '\n' ',' | sed 's/,$//')
-            echo "Changed files: $files"
+            # Get unique .md files, strip the 'docs/zh/' prefix, and format as comma-separated list
+            files=$(echo "$changed" | tr ' ' '\n' | sort -u | grep '\.md$' | sed 's|^docs/zh/||' | tr '\n' ',' | sed 's/,$//')
+            echo "Changed files (relative to docs/zh/): $files"
             echo "has_changes=true" >> $GITHUB_OUTPUT
             echo "files=$files" >> $GITHUB_OUTPUT
           fi

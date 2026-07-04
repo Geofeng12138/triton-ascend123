@@ -20,8 +20,12 @@
 Translate Chinese Markdown files (docs/zh/) to English (docs/en/).
 
 Usage:
-    python translate_md.py --files "docs/zh/quick_start.md,docs/zh/FAQ.md"
-    python translate_md.py --all   # translate all zh files that differ from en
+    # Translate specific files (paths relative to docs/zh/, no prefix needed)
+    python translate_md.py --files "quick_start.md,FAQ.md"
+    # Or with full path
+    python translate_md.py --files "docs/zh/quick_start.md"
+    # Translate all changed/new files
+    python translate_md.py --all
 """
 
 import argparse
@@ -104,10 +108,9 @@ class MarkdownTranslator:
             return False
 
         en_path = self._relative_path(zh_path)
-        print(f"  {zh_path.name} → {en_path} ({len(lines)} lines)", end=" ", flush=True)
+        print(f"  {zh_path.name} \u2192 {en_path} ({len(lines)} lines)", end=" ", flush=True)
 
         try:
-            # For very large files, we could chunk them, but for most docs it's fine
             result = await self._call_api(content, file_info=str(zh_path))
             if not result:
                 print("FAILED (empty response)")
@@ -141,18 +144,20 @@ class MarkdownTranslator:
             if ok:
                 success_files.append(str(self._relative_path(path)))
 
+        print(f"\nResult: {len(success_files)}/{len(file_list)} translated")
+
+        # Always write the JSON, even if no files were translated
         report = {
             "success_files": success_files,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
             "total_files": len(file_list),
             "success_count": len(success_files),
         }
-
         out = Path(output_json)
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+        print(f"Results written to {output_json}")
 
-        print(f"\nResult: {len(success_files)}/{len(file_list)} translated -> {output_json}")
         return 0 if success_files else 1
 
     @staticmethod
@@ -203,30 +208,57 @@ class MarkdownTranslator:
         return changed
 
 
+def write_empty_json(output_json: str, reason: str = ""):
+    """Write an empty result JSON so the workflow can check it."""
+    report = {
+        "success_files": [],
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "total_files": 0,
+        "success_count": 0,
+        "note": reason,
+    }
+    out = Path(output_json)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"Empty result written to {output_json} (reason: {reason})")
+
+
 async def async_main():
     parser = argparse.ArgumentParser(description="Translate docs/zh/ Markdown to docs/en/")
-    parser.add_argument("--files", help="Comma-separated relative file paths to translate (under docs/zh/)")
+    parser.add_argument("--files", help="Comma-separated file paths to translate (relative to docs/zh/, e.g. quick_start.md)")
     parser.add_argument("--all", action="store_true", help="Translate all changed/new .md files")
     parser.add_argument("--output-json", default=os.getenv("OUTPUT_JSON", "/tmp/translation_results.json"))
     parser.add_argument("--api-key", default=os.getenv("DEEPSEEK_API_KEY"))
     parser.add_argument("--max-concurrent", type=int, default=5)
     args = parser.parse_args()
 
+    output_json = args.output_json
+
+    # Check API key early
     api_key = args.api_key or os.getenv("DEEPSEEK_API_KEY")
     if not api_key:
-        print("Error: DEEPSEEK_API_KEY not set")
+        msg = "DEEPSEEK_API_KEY not set"
+        print(f"Error: {msg}")
+        write_empty_json(output_json, msg)
         return 1
 
     # Determine file list
     if args.files:
-        file_list = [Path(ZH_DIR / f.strip()) for f in args.files.split(",") if f.strip()]
+        raw_files = [f.strip() for f in args.files.split(",") if f.strip()]
+        file_list = []
+        for f in raw_files:
+            # Support both "quick_start.md" and "docs/zh/quick_start.md"
+            p = Path(f)
+            if not p.exists():
+                # Try prepending docs/zh/
+                p = ZH_DIR / f
+            file_list.append(p)
     elif args.all:
         file_list = MarkdownTranslator.find_changed_zh_files()
-        if not file_list:
-            print("No changed/new .md files found in docs/zh/")
-            return 0
     else:
-        print("Error: specify --files or --all")
+        msg = "specify --files or --all"
+        print(f"Error: {msg}")
+        write_empty_json(output_json, msg)
         return 1
 
     # Validate files exist
@@ -237,10 +269,11 @@ async def async_main():
 
     if not valid_files:
         print("No valid .md files to translate")
+        write_empty_json(output_json, "no valid .md files to translate")
         return 0
 
     translator = MarkdownTranslator(api_key=api_key, max_concurrent=args.max_concurrent)
-    return await translator.translate_files(valid_files, args.output_json)
+    return await translator.translate_files(valid_files, output_json)
 
 
 if __name__ == "__main__":
