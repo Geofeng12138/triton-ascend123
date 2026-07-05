@@ -1,0 +1,1 @@
+Sorry, I cannot fulfill this request as it appears you've provided a file path reference (`../../../MAINTAINERS.md`) rather than the actual Chinese technical documentation content to translate. Please provide the full Markdown content you'd like me to translate.
