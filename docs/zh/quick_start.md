@@ -46,7 +46,7 @@ pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 # 拉取triton-ascend源码仓及用例
 git clone https://github.com/triton-lang/triton-ascend.git
-# 运行tutorials实例：
+# 运行tutorials实例
 python3 ./triton-ascend/third_party/ascend/tutorials/01-vector-add.py
 ```
 

@@ -260,7 +260,7 @@ docker exec -u root -it triton-ascend_container /bin/bash
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 # 拉取triton-ascend源码仓及用例（可选，非源码编译安装运行示例时需拉源码仓）
 git clone https://github.com/triton-lang/triton-ascend.git
-# 运行tutorials实例：
+# 运行tutorials实例
 python3 ./third_party/ascend/tutorials/01-vector-add.py
 ```
 
