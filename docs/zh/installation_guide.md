@@ -125,6 +125,9 @@ cmake ../llvm \
     -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_PREFIX}
 ninja install
 
+# 拷贝FILECHECK到目标安装路径
+cp  {PATH_TO}/llvm_project/build/bin/FileCheck ${LLVM_INSTALL_PREFIX}/bin/FileCheck
+
 # 编译Triton-Ascend
 git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
 
@@ -242,12 +245,15 @@ docker exec -u root -it triton-ascend_container /bin/bash
 
 ## 运行样例
 
-运行实例：<a href="https://github.com/triton-lang/triton-ascend/blob/main/third_party/ascend/tutorials/01-vector-add.py" style="text-decoration: none; color: #0066cc;">01-vector-add.py </a>
+**运行tutorials中向量加法实例验证结果**
+向量加法实例：<a href="https://github.com/triton-lang/triton-ascend/blob/main/third_party/ascend/tutorials/01-vector-add.py" style="text-decoration: none; color: #0066cc;">01-vector-add.py </a>
 
 ```bash
 # 设置CANN环境变量（以root用户默认安装路径`/usr/local/Ascend`为例）
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
-# 运行tutorials示例：
+# 拉取triton-ascend源码仓及用例（可选，非源码编译安装运行示例时需拉源码仓）
+git clone https://github.com/triton-lang/triton-ascend.git
+# 运行tutorials实例：
 python3 ./third_party/ascend/tutorials/01-vector-add.py
 ```
 

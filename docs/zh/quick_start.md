@@ -36,8 +36,7 @@ pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra
 
 ## 快速开始
 
-**运行tutorials中向量加法示例验证结果**
-
+**运行tutorials中向量加法实例验证结果**
 向量加法实例：[01-vector-add.py](../../third_party/ascend/tutorials/01-vector-add.py)
 通过对比Triton算子与PyTorch原生计算的输出结果，证明昇腾NPU设备可正确调用Triton算子并保证计算精度。
 
@@ -46,7 +45,7 @@ pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 # 拉取triton-ascend源码仓及用例（可选，非源码编译安装运行示例时需拉源码仓）
 git clone https://github.com/triton-lang/triton-ascend.git
-# 运行tutorials示例：
+# 运行tutorials实例：
 python3 ./triton-ascend/third_party/ascend/tutorials/01-vector-add.py
 ```
 
