@@ -109,7 +109,7 @@ pip install -e .
     git apply fad3272.patch
     ```
 
-2. **构建LLVM**：路径`/path/to/`为用户第一步检出LLVM源码的路径。
+2. **构建LLVM**：路径`{PATH_TO}`为用户第一步检出LLVM源码的路径。
 
     ```bash
     export LLVM_INSTALL_PREFIX=/path/to/llvm-install
