@@ -97,48 +97,54 @@ pip install -e .
 
 ### 自定义LLVM构建（可选）
 
-```bash
-# 如果需要自定义构建LLVM过程的，可以先执行这一步再去编译Triton-Ascend
-# 检出指定版本的LLVM源码并应用补丁
-git clone --no-checkout https://github.com/llvm/llvm-project.git
-cd llvm-project
-git checkout fad3272286528b8a491085183434c5ad4b59ab92
-wget https://raw.githubusercontent.com/triton-lang/triton-ascend/6765b03c81c4e9ecb277e4ef1dde61dea0d044f0/third_party/ascend/llvm_patch/fad3272.patch
-git apply fad3272.patch
+如果需要自定义构建LLVM过程的，可以执行下面的步骤去编译Triton-Ascend
 
-export LLVM_INSTALL_PREFIX=/path/to/llvm-install
+1. **代码准备**：通过`git checkout`检出指定版本的LLVM源码并应用补丁。
 
-# 构建自定义LLVM版本
-cd {PATH_TO}/llvm-project
-mkdir build
-cd build
-cmake ../llvm \
-    -G Ninja \
-    -DCMAKE_C_COMPILER=/usr/bin/clang-15 \
-    -DCMAKE_CXX_COMPILER=/usr/bin/clang++-15 \
-    -DCMAKE_LINKER=/usr/bin/lld-15 \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_ENABLE_ASSERTIONS=ON \
-    -DLLVM_ENABLE_PROJECTS="mlir;llvm;lld" \
-    -DLLVM_TARGETS_TO_BUILD="host;NVPTX;AMDGPU" \
-    -DLLVM_ENABLE_LLD=ON \
-    -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_PREFIX}
-ninja install
+    ```bash
+    git clone --no-checkout https://github.com/llvm/llvm-project.git
+    cd llvm-project
+    git checkout fad3272286528b8a491085183434c5ad4b59ab92
+    wget https://raw.githubusercontent.com/triton-lang/triton-ascend/6765b03c81c4e9ecb277e4ef1dde61dea0d044f0/third_party/ascend/llvm_patch/fad3272.patch
+    git apply fad3272.patch
+    ```
 
-# 拷贝FILECHECK到目标安装路径
-cp  {PATH_TO}/llvm_project/build/bin/FileCheck ${LLVM_INSTALL_PREFIX}/bin/FileCheck
+2. **构建LLVM**：路径`/path/to/`为用户第一步检出LLVM源码的路径。
 
-# 编译Triton-Ascend
-git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
+    ```bash
+    export LLVM_INSTALL_PREFIX=/path/to/llvm-install
+    cd {PATH_TO}/llvm-project
+    mkdir build
+    cd build
+    cmake ../llvm \
+        -G Ninja \
+        -DCMAKE_C_COMPILER=/usr/bin/clang-15 \
+        -DCMAKE_CXX_COMPILER=/usr/bin/clang++-15 \
+        -DCMAKE_LINKER=/usr/bin/lld-15 \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_ASSERTIONS=ON \
+        -DLLVM_ENABLE_PROJECTS="mlir;llvm;lld" \
+        -DLLVM_TARGETS_TO_BUILD="host;NVPTX;AMDGPU" \
+        -DLLVM_ENABLE_LLD=ON \
+        -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_PREFIX}
+    ninja install
 
-LLVM_SYSPATH=${LLVM_INSTALL_PREFIX} \
-TRITON_BUILD_WITH_CCACHE=true \
-TRITON_BUILD_WITH_CLANG_LLD=true \
-TRITON_BUILD_PROTON=OFF \
-TRITON_WHEEL_NAME="triton-ascend" \
-TRITON_APPEND_CMAKE_ARGS="-DTRITON_BUILD_UT=OFF" \
-python3 setup.py install
-```
+    # 拷贝FILECHECK到目标安装路径
+    cp  {PATH_TO}/llvm_project/build/bin/FileCheck ${LLVM_INSTALL_PREFIX}/bin/FileCheck
+    ```
+
+3. **编译Triton-Asecnd**
+
+    ```bash
+    git clone https://github.com/triton-lang/triton-ascend.git && cd triton-ascend
+    LLVM_SYSPATH=${LLVM_INSTALL_PREFIX} \
+    TRITON_BUILD_WITH_CCACHE=true \
+    TRITON_BUILD_WITH_CLANG_LLD=true \
+    TRITON_BUILD_PROTON=OFF \
+    TRITON_WHEEL_NAME="triton-ascend" \
+    TRITON_APPEND_CMAKE_ARGS="-DTRITON_BUILD_UT=OFF" \
+    python3 setup.py install
+    ```
 
 ## 开发镜像
 
