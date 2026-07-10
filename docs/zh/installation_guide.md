@@ -17,9 +17,9 @@
 确定CANN、Python和TorchNPU软件版本并安装。其中，可以参考昇腾社区官网《[CANN快速安装](https://www.hiascend.com/cann/download)》
 完成驱动与固件安装。
 
-- CANN版本推荐：9.0.0
+- CANN版本推荐：8.5.0
 - Python版本推荐：python3.11
-- TorchNPU版本推荐：2.7.1.post4
+- TorchNPU版本推荐：2.6.0
 
 **表1** 产品版本配套说明表
 <table style="table-layout: fixed; width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
@@ -70,8 +70,8 @@
 ## 快速安装
 
 ```bash
-# 以安装 triton-ascend 3.2.1 为例
-pip install triton-ascend==3.2.1 --extra-index-url=https://triton-ascend.osinfra.cn/pypi/simple
+# 以安装 triton-ascend 3.2.0 为例
+pip install triton-ascend==3.2.0 --extra-index-url=https://triton-ascend.osinfra.cn/pypi/simple
 ```
 
 ## 源码安装
@@ -97,21 +97,22 @@ pip install -e .
 
 ### 自定义LLVM构建（可选）
 
-如果需要自定义构建LLVM过程的，可以执行下面的步骤去编译Triton-Ascend
+如果需要自定义构建LLVM过程的，可以执行下面的步骤去编译Triton-Ascend。
 
 1. **代码准备**：通过`git checkout`检出指定版本的LLVM源码并应用补丁。
 
     ```bash
     git clone --no-checkout https://github.com/llvm/llvm-project.git
     cd llvm-project
-    git checkout fad3272286528b8a491085183434c5ad4b59ab92
-    wget https://raw.githubusercontent.com/triton-lang/triton-ascend/6765b03c81c4e9ecb277e4ef1dde61dea0d044f0/third_party/ascend/llvm_patch/fad3272.patch
-    git apply fad3272.patch
+    git checkout f6ded0be897e2878612dd903f7e8bb85448269e5
+    wget https://raw.githubusercontent.com/triton-lang/triton-ascend/refs/heads/main/third_party/ascend/patch/llvm_patch_f6ded0b.patch
+    git apply llvm_patch_f6ded0b.patch
     ```
 
 2. **构建LLVM**：路径`{PATH_TO}`为用户第一步检出LLVM源码的路径。
 
     ```bash
+    # /path/to/llvm-install 路径为用户规划的llvm安装路径,需根据实际调整
     export LLVM_INSTALL_PREFIX=/path/to/llvm-install
     cd {PATH_TO}/llvm-project
     mkdir build
