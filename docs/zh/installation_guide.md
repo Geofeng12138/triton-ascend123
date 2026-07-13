@@ -17,6 +17,10 @@
 确定CANN、Python和TorchNPU软件版本并安装。其中，可以参考昇腾社区官网《[CANN快速安装](https://www.hiascend.com/cann/download)》
 完成驱动与固件安装。
 
+- CANN版本：9.0.0
+- Python版本：python3.11
+- TorchNPU版本：2.7.1.post4
+
 **表1** 产品版本配套说明表
 <table style="table-layout: fixed; width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
     <thead>
@@ -59,40 +63,6 @@
     <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">8.5.0</td>
     <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">2.6.0</td>
     <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">NA</td>
-    </tr>
-    </tbody>
-</table>
-
-**表2** 不同安装方式的产品版本配套推荐表
-<table style="table-layout: fixed; width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
-    <thead>
-    <tr>
-    <th style="width: 20%; text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;">
-    <strong>安装方式</strong>
-    </th>
-    <th style="width: 20%; text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;">
-    <strong>Python推荐版本</strong>
-    </th>
-    <th style="width: 20%; text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;">
-    <strong>CANN推荐版本</strong>
-    </th>
-    <th style="width: 20%; text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd; background-color: #f5f5f5;">
-    <strong>TorchNPU推荐版本</strong>
-    </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-   <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">快速安装</td>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">Python3.11.x</td>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">9.0.0</td>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">2.7.1.post4</td>
-    </tr>
-    <tr>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">源码安装</td>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">Python3.11.x</td>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">8.5.0</td>
-    <td style="text-align: left; vertical-align: middle; padding: 12px; border: 1px solid #ddd;">2.6.0</td>
     </tr>
     </tbody>
 </table>
@@ -180,7 +150,7 @@ pip install -e .
 
 ### 检查镜像版本
 
-**表3** CANN版本与镜像标签对照表。更多镜像参见 [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md) 文档。
+**表2** CANN版本与镜像标签对照表。更多镜像参见 [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md) 文档。
 <table style="table-layout: fixed; width: 100%; border-collapse: collapse;">
   <tr style="height: 50px;">
     <th style="width: 20%; border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f5f5f5;">CANN版本</th>
