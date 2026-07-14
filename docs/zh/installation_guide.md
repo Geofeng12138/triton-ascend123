@@ -128,9 +128,6 @@ pip install -e .
         -DLLVM_ENABLE_LLD=ON \
         -DCMAKE_INSTALL_PREFIX=${LLVM_INSTALL_PREFIX}
     ninja install
-
-    # 拷贝FILECHECK到目标安装路径
-    cp  {PATH_TO}/llvm-project/build/bin/FileCheck ${LLVM_INSTALL_PREFIX}/bin/FileCheck
     ```
 
 3. **编译Triton-Asecnd**
