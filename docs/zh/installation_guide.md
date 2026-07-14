@@ -150,7 +150,7 @@ pip install -e .
 
 ### 检查镜像版本
 
-**表2** CANN版本与镜像标签对照表。更多镜像参见 [OVERVIEW.zh.md](../../docker/OVERVIEW.zh.md) 文档。
+**表2** CANN版本与镜像标签对照表。
 <table style="table-layout: fixed; width: 100%; border-collapse: collapse;">
   <tr style="height: 50px;">
     <th style="width: 20%; border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f5f5f5;">CANN版本</th>
@@ -223,6 +223,7 @@ pip install -e .
 ### 镜像使用
 
 ```bash
+# 这里以 9.0.0-a3-ubuntu22.04-py3.11 为例
 docker run -u 0 -dit --shm-size=512g --name=triton-ascend_container \
 --security-opt seccomp=unconfined \
 --device=/dev/davinci0 \
@@ -242,7 +243,7 @@ docker run -u 0 -dit --shm-size=512g --name=triton-ascend_container \
 -v /usr/local/Ascend/driver:/usr/local/Ascend/driver \
 -v /home:/home \
 -v /etc/ascend_install.info:/etc/ascend_install.info \
-triton-ascend-image:latest \
+quay.io/ascend/cann:9.0.0-a3-ubuntu22.04-py3.11 \
 /bin/bash
 
 # 进入容器，可在前面的快速安装和源码安装中任选一种方式安装Triton-Ascend
